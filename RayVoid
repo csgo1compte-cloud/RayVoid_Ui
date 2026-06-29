@@ -1,4 +1,4 @@
-Print("RayVoid Version : 2.98.5")
+
 --[🔴 CritiqueRayfieldLibrary.LoadConfiguration() sans :4270🔴 CritiqueColorPickerSettings.Color HSV au lieu de RGB~2014, 2035🔴 Critique.connect minuscule (4 occurrences)2041, 2045, 2049, 2054🔴 BugDouble UIStroke dans CreateOverlay4429–4430🔴 BugMaximise() sans nil-check sur dragBarCosmetic1434🟡 PerfConnexions GetPropertyChangedSignal qui s'accumulent2603, 2618🟡 PerfRenderStepped actif en permanence2054🟡 PerfBoucle bloquante pour les assets770🟠 CodeShadow de paramètre dans SliderSettings:Set3155🟠 CodeShadow de variable color dans setDisplay1992]
 
 
