@@ -5345,8 +5345,20 @@ function RayfieldLibrary:ShowCredit(onClose)
 	local useMobile = _tempSg.AbsoluteSize.X < 1024 and _tempSg.AbsoluteSize.Y < 768
 	_tempSg:Destroy()
 
+	-- Détection executor non supporté (Xeno / Solara)
+	local _execName = "Unknown"
+	pcall(function() _execName = identifyexecutor() or "Unknown" end)
+	local _badExec = false
+	do
+		local _low = string.lower(_execName)
+		if string.find(_low, "xeno", 1, true) or string.find(_low, "solara", 1, true) then
+			_badExec = true
+		end
+	end
+	local warnH = _badExec and (useMobile and 64 or 72) or 0
+
 	local BG_W = useMobile and 340 or 500
-	local BG_H = useMobile and 300 or 370
+	local BG_H = (useMobile and 260 or 318) + warnH
 
 	local ScreenGui = Instance.new("ScreenGui")
 	ScreenGui.Name           = "Rayfield_Credit"
@@ -5363,66 +5375,58 @@ function RayfieldLibrary:ShowCredit(onClose)
 	bg.Parent           = ScreenGui
 
 	local text = Instance.new("TextLabel")
-	text.Size               = UDim2.new(1, -20, 0, useMobile and 100 or 130)
+	text.Size               = UDim2.new(1, -20, 0, useMobile and 140 or 178)
 	text.Position           = UDim2.new(0, 10, 0, 10)
 	text.BackgroundTransparency = 1
 	text.TextColor3         = Color3.fromRGB(255, 255, 255)
 	text.TextWrapped        = true
+	text.RichText           = true
 	text.Font               = Enum.Font.GothamBold
 	text.TextSize           = useMobile and 13 or 16
 	text.TextYAlignment     = Enum.TextYAlignment.Top
-	text.Text               = "Script made by AKkiwi\n\n⚠️ All my scripts are FREE and KEYLESS.\nIf you were asked for a key or a key system,\nyou got SCAMMED.\nGet all my scripts for free on RScripts and Discord."
+	text.Text               = '<font color="rgb(120,200,255)">Script made by AKkiwi</font>\n\n'
+		.. 'Asked for a <font color="rgb(255,90,90)">key</font>? You got <font color="rgb(255,90,90)">SCAMMED.</font>\n'
+		.. '<font color="rgb(80,220,120)">All my scripts are FREE &amp; KEYLESS — always.</font>\n\n'
+		.. '<font color="rgb(255,200,80)">Join the Discord for more scripts &amp; updates!</font>\n'
+		.. '<font color="rgb(200,160,255)">💡 I make custom scripts on request — for free.</font>\n'
+		.. '<font color="rgb(185,150,255)">💬 Join the Discord below</font> 👇'
 	text.Parent             = bg
 
-	local likeText = Instance.new("TextLabel")
-	likeText.Size               = UDim2.new(1, -20, 0, 40)
-	likeText.Position           = UDim2.new(0, 10, 0, useMobile and 108 or 140)
-	likeText.BackgroundTransparency = 1
-	likeText.TextColor3         = Color3.fromRGB(255, 200, 50)
-	likeText.TextWrapped        = true
-	likeText.Font               = Enum.Font.GothamBold
-	likeText.TextSize           = useMobile and 12 or 14
-	likeText.TextYAlignment     = Enum.TextYAlignment.Top
-	likeText.Text               = "⭐ If you enjoy my scripts, please like and follow\nmy RScripts profile — it helps a lot, thank you!"
-	likeText.Parent             = bg
+	if _badExec then
+		local warnLabel = Instance.new("TextLabel")
+		warnLabel.Size                   = UDim2.new(1, -20, 0, warnH - 6)
+		warnLabel.Position               = UDim2.new(0, 10, 0, useMobile and 154 or 192)
+		warnLabel.BackgroundColor3       = Color3.fromRGB(40, 10, 10)
+		warnLabel.BackgroundTransparency = 0.2
+		warnLabel.BorderSizePixel        = 0
+		warnLabel.TextColor3             = Color3.fromRGB(255, 90, 90)
+		warnLabel.TextWrapped            = true
+		warnLabel.Font                   = Enum.Font.GothamBold
+		warnLabel.TextSize               = useMobile and 11 or 13
+		warnLabel.Text                   = "⚠️ You are using " .. _execName .. ".\nThis executor is NOT supported by my scripts and may cause errors.\nJoin the Discord below to find a working executor."
+		warnLabel.Parent                 = bg
+	end
 
 	local discordBtn = Instance.new("TextButton")
 	discordBtn.Size             = UDim2.new(1, -20, 0, 34)
-	discordBtn.Position         = UDim2.new(0, 10, 0, useMobile and 155 or 190)
-	discordBtn.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-	discordBtn.TextColor3       = Color3.fromRGB(100, 150, 255)
-	discordBtn.Font             = Enum.Font.Gotham
+	discordBtn.Position         = UDim2.new(0, 10, 0, (useMobile and 158 or 196) + warnH)
+	discordBtn.BackgroundColor3 = Color3.fromRGB(20, 22, 40)
+	discordBtn.TextColor3       = Color3.fromRGB(150, 165, 255)
+	discordBtn.Font             = Enum.Font.GothamBold
 	discordBtn.TextSize         = useMobile and 13 or 15
 	discordBtn.BorderSizePixel  = 0
-	discordBtn.Text             = "🔗 discord.gg/jRUqqXbHwY  (click to copy)"
+	discordBtn.Text             = "🎉 discord.gg/ztnxx5FJk — JOIN US! (click to copy)"
 	discordBtn.Parent           = bg
 	discordBtn.MouseButton1Click:Connect(function()
-		pcall(setclipboard, "https://discord.gg/jRUqqXbHwY")
-		discordBtn.Text = "✅ Link copied!"
+		pcall(setclipboard, "https://discord.gg/KWVTcdp9YW")
+		discordBtn.Text = "✅ Link copied — see you there!"
 		task.wait(2)
-		discordBtn.Text = "🔗 discord.gg/ztnxx5FJk  (click to copy)"
-	end)
-
-	local rscriptsBtn = Instance.new("TextButton")
-	rscriptsBtn.Size             = UDim2.new(1, -20, 0, 34)
-	rscriptsBtn.Position         = UDim2.new(0, 10, 0, useMobile and 197 or 238)
-	rscriptsBtn.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-	rscriptsBtn.TextColor3       = Color3.fromRGB(100, 200, 100)
-	rscriptsBtn.Font             = Enum.Font.Gotham
-	rscriptsBtn.TextSize         = useMobile and 13 or 15
-	rscriptsBtn.BorderSizePixel  = 0
-	rscriptsBtn.Text             = "🌐 rscripts.net/@akkiwi — All my scripts (click to copy)"
-	rscriptsBtn.Parent           = bg
-	rscriptsBtn.MouseButton1Click:Connect(function()
-		pcall(setclipboard, "https://rscripts.net/@akkiwi")
-		rscriptsBtn.Text = "✅ Link copied!"
-		task.wait(2)
-		rscriptsBtn.Text = "🌐 rscripts.net/@akkiwi — All my scripts (click to copy)"
+		discordBtn.Text = "🎉 discord.gg/KWVTcdp9YW — JOIN US! (click to copy)"
 	end)
 
 	local closeBtn = Instance.new("TextButton")
 	closeBtn.Size             = UDim2.new(1, -20, 0, 34)
-	closeBtn.Position         = UDim2.new(0, 10, 0, useMobile and 255 or 320)
+	closeBtn.Position         = UDim2.new(0, 10, 0, (useMobile and 200 or 238) + warnH)
 	closeBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 	closeBtn.TextColor3       = Color3.fromRGB(255, 255, 255)
 	closeBtn.Font             = Enum.Font.GothamBold
